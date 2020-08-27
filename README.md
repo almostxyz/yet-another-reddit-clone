@@ -5,3 +5,4 @@ Postgresql, Express, React, Node.js, GraphQL reddit-like app
   - yarn watch
   - yarn dev
   - yarn start
+  - yarn create:migration
