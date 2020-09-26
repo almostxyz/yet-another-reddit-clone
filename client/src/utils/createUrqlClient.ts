@@ -1,5 +1,5 @@
 import { dedupExchange, fetchExchange } from "urql"
-import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation } from "../src/generated/graphql"
+import { LogoutMutation, MeQuery, MeDocument, LoginMutation, RegisterMutation } from "../generated/graphql"
 import { betterUpdateQuery } from "./betterUpdateQuery"
 import { cacheExchange } from '@urql/exchange-graphcache'
 
