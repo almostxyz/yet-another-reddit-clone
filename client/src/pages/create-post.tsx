@@ -3,16 +3,27 @@ import { Formik, Form } from 'formik'
 import { withUrqlClient } from 'next-urql'
 import React from 'react'
 import { InputField } from '../components/InputField'
+import { Layout } from '../components/Layout'
 import { Wrapper } from '../components/Wrapper'
+import { useCreatePostMutation } from '../generated/graphql'
 import { createUrqlClient } from '../utils/createUrqlClient'
+import { useRouter } from 'next/router'
 
 const CreatePost: React.FC<{}> = ({ }) => {
+    const router = useRouter()
+    const [, createPost] = useCreatePostMutation()
     return (
-        <Wrapper variant='small'>
+        <Layout variant='small'>
             <Formik
                 initialValues={{ title: '', text: '' }}
                 onSubmit={async (values, { setErrors }) => {
-                    console.log(values)
+                    const { error } = await createPost({ input: values })
+                    if (error?.message.includes('401')) {
+                        router.push('/login')
+                    } else {
+                        router.push('/')
+                    }
+
                 }}
             >
                 {({ isSubmitting }) => (
@@ -27,7 +38,6 @@ const CreatePost: React.FC<{}> = ({ }) => {
                                 name='text'
                                 placeholder='The body of your post...'
                                 label='Body'
-                                textarea
                             />
                         </Box>
                         <Button
@@ -35,6 +45,7 @@ const CreatePost: React.FC<{}> = ({ }) => {
                             type='submit'
                             isLoading={isSubmitting}
                             variantColor='teal'
+
                         >
                             Create post
                         </Button>
@@ -42,7 +53,7 @@ const CreatePost: React.FC<{}> = ({ }) => {
                     </Form>
                 )}
             </Formik>
-        </Wrapper>
+        </Layout>
     )
 }
 
