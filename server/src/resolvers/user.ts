@@ -2,7 +2,6 @@ import { Resolver, Mutation, Field, Arg, Ctx, ObjectType, Query } from "type-gra
 import { MyContext } from "../types";
 import { User } from "../entities/User";
 import argon2 from 'argon2'
-import { EntityManager } from '@mikro-orm/postgresql'
 import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
 import { UsernamePasswordInput } from "./UsernamePasswordInput";
 import { validateRegister } from "../utils/validateRegister";
@@ -143,7 +142,7 @@ export class UserResolver {
                 })
                 .returning('*')
                 .execute()
-            user = result.raw
+            user = result.raw[0]
         } catch (err) {
             if (err.code === '23505') {
                 // duplicate username
