@@ -19,7 +19,7 @@ export class PostResolver {
     async createPost(
         @Arg('title') title: string,
     ): Promise<Post> {
-        return Post.create({ title })
+        return Post.create({ title }).save()
     }
 
     @Mutation(() => Post, { nullable: true })
